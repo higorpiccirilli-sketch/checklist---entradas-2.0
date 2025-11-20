@@ -1,297 +1,774 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>✅ Conferência de Cadastro de Produto — Dark</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#0b0f14; --elev:#121821; --muted:#1a2230; --text:#e6edf3; --sub:#9fb0c3; --acc:#4ba3ff; --ok:#22c55e; --warn:#f59e0b; --danger:#ef4444; --ring:#4ba3ff33;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans',sans-serif;background:linear-gradient(180deg,#0b0f14,#0c1117);color:var(--text)}
-    .container{max-width:980px;margin:40px auto;padding:24px}
-    .card{background:linear-gradient(180deg,#0e141b,#0b1118);border:1px solid #1f2a3a;border-radius:16px;box-shadow:0 10px 30px #00000055}
-    .header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #1d2736}
-    .title{display:flex;gap:12px;align-items:center;font-weight:700}
-    .title .badge{font-size:12px;color:#c8d6e5;background:#1a2230;border:1px solid #223044;padding:4px 8px;border-radius:999px}
-    .controls{display:flex;flex-wrap:wrap;gap:8px}
-    .btn{appearance:none;border:1px solid #263245;background:#121a24;color:var(--text);padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:600;transition:transform .08s ease, box-shadow .2s}
-    .btn:hover{box-shadow:0 0 0 3px var(--ring)}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{background:linear-gradient(180deg,#0f2032,#0d1a28);border-color:#284264}
-    .btn.ok{border-color:#214d34;background:#0e1c14}
-    .btn.warn{border-color:#4a3b17;background:#1a1408}
-    .btn.danger{border-color:#5b2323;background:#1a0e0e}
-    .btn.icon{display:flex;align-items:center;gap:8px}
-
-    .toolbar{display:grid;grid-template-columns:repeat(4,1fr) auto;gap:12px;align-items:end;padding:16px 24px;border-bottom:1px solid #1d2736}
-    .field{display:flex;flex-direction:column;gap:6px;background:#0e151e;border:1px solid #223044;border-radius:12px;padding:10px}
-    .field label{font-size:12px;color:var(--sub)}
-    .field input[type="text"]{background:transparent;border:none;outline:none;color:var(--text);font-weight:600}
-    .select{appearance:none;background:#0e151e;border:1px solid #223044;color:var(--text);padding:10px 12px;border-radius:12px}
-
-    .progress{padding:16px 24px;display:flex;gap:16px;align-items:center}
-    .bar{flex:1;height:10px;background:#111827;border:1px solid #1f2a3a;border-radius:999px;overflow:hidden}
-    .bar > span{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--acc),#6ad1ff)}
-    .meter{min-width:160px;text-align:right;color:var(--sub);font-size:14px}
-
-    .list{padding:8px 12px 18px}
-    .item{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;padding:12px 10px;margin:8px 0;border-radius:12px;background:linear-gradient(180deg,#0e141c,#0c1219);border:1px solid #1e293b}
-    .item:hover{box-shadow:0 0 0 3px #4ba3ff22}
-    .check{width:20px;height:20px;border:2px solid #355070;border-radius:6px;display:inline-grid;place-items:center;cursor:pointer;transition:all .15s;background:#0c1219}
-    .check.done{border-color:#2f7d4b;background:#102217}
-    .check svg{opacity:0;transition:opacity .15s}
-    .check.done svg{opacity:1}
-    .text{outline:none}
-    .text[contenteditable="true"]{padding:6px;border-radius:8px}
-    .text:focus{background:#0f1621;box-shadow:0 0 0 2px var(--ring)}
-    .pill{font-size:12px;color:#9fb0c3;background:#131c28;border:1px solid #1f2a3a;border-radius:999px;padding:6px 10px;margin-right:8px}
-    .actions{display:flex;gap:6px}
-    .muted{color:var(--sub)}
-    .ghost{opacity:.65}
-
-    .footer{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-top:1px solid #1d2736;color:var(--sub);font-size:13px}
-
-    @media (max-width:820px){
-      .toolbar{grid-template-columns:1fr 1fr}
-    }
-
-    @media (max-width:560px){
-      .item{grid-template-columns:28px 1fr}
-      .actions{grid-column:1/-1}
-      .meter{min-width:120px}
-    }
-
-    /* Print-friendly */
-    @media print{
-      .btn, .footer{display:none !important}
-      body{background:#fff;color:#000}
-      .card{background:#fff;border:1px solid #ccc;box-shadow:none}
-      .item{background:#fff;border-color:#ccc}
-      .check{border-color:#555}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de Lançamento de NF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .progress-bar-fill {
+            transition: width 0.3s ease-in-out;
+        }
+        .checklist-item label {
+            cursor: pointer;
+        }
+        .checklist-item input[type="checkbox"] {
+            cursor: pointer;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        .checklist-item.checked > label {
+            text-decoration: line-through;
+            color: #94a3b8; /* slate-400 */
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+         .info-item {
+            background-color: #f0f9ff; /* sky-50 */
+            border: 1px solid #bae6fd; /* sky-200 */
+            color: #0c4a6e; /* sky-900 */
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+        }
+        .info-item strong {
+            color: #0369a1; /* sky-800 */
+        }
+        .input-error {
+            border-color: #ef4444; /* red-500 */
+            outline-color: #ef4444;
+        }
+        .error-message {
+            color: #ef4444; /* red-500 */
+            font-size: 0.875rem;
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            transition: opacity 0.2s ease-in-out;
+        }
+        .modal-container {
+            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        }
+        
+        /* Generator Styles */
+        .item-tag {
+            background-color: #e0f2fe; /* sky-100 */
+            border: 1px solid #7dd3fc; /* sky-300 */
+            color: #0c4a6e; /* sky-900 */
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'monospace';
+            font-size: 0.9rem;
+        }
+        .remove-item-btn {
+            background-color: transparent;
+            border: none;
+            color: #be123c; /* rose-700 */
+            font-size: 1.5rem;
+            line-height: 1;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 0.25rem;
+            border-radius: 50%;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .remove-item-btn:hover {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+        }
+        /* Botão Copiar NF do Histórico */
+        .copy-nf-btn {
+            background-color: #e2e8f0; /* slate-200 */
+            color: #475569; /* slate-600 */
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 600; /* semibold */
+            padding: 0.25rem 0.5rem; /* py-1 px-2 */
+            border-radius: 0.375rem; /* rounded-md */
+            transition: background-color 0.2s, color 0.2s;
+            flex-shrink: 0;
+            margin-left: 0.75rem; /* ml-3 */
+            border: none;
+            cursor: pointer;
+        }
+        .copy-nf-btn:hover {
+            background-color: #cbd5e1; /* slate-300 */
+        }
+        .copy-nf-btn:disabled {
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-800 */
+            cursor: default;
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <div class="card" id="app">
-      <div class="header">
-        <div class="title">
-          <span style="font-size:22px">✅ Conferência de Cadastro de Produto</span>
-          <span class="badge">Dark • Offline • Salva automático</span>
-        </div>
-        <div class="controls">
-          <button class="btn ok icon" id="btnClearDone" title="Remover concluídos"><span>🧹</span>Limpar concluídos</button>
-          <button class="btn primary icon" id="btnExport" title="Exportar backup (JSON)"><span>📤</span>Exportar</button>
-          <label class="btn icon" title="Importar backup (JSON)" for="fileImport"><span>📥</span>Importar</label>
-          <input id="fileImport" type="file" accept="application/json" hidden />
-        </div>
-      </div>
+<body class="antialiased text-slate-700">
 
-      <!-- Dados do produto (versão 1: manual, sem validação) -->
-      <div class="toolbar" id="productForm">
-        <div class="field"><label>🏷️ SKU</label><input id="fSku" type="text" placeholder="Ex.: P-1234" /></div>
-        <div class="field"><label>📝 Descrição</label><input id="fDesc" type="text" placeholder="Nome do produto" /></div>
-        <div class="field"><label>📦 NCM</label><input id="fNcm" type="text" placeholder="Ex.: 2309.90.10" /></div>
-        <div class="field"><label>📇 EAN/GTIN</label><input id="fGtin" type="text" placeholder="Ex.: 7890000000000" /></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end">
-          <button class="btn" id="btnClearForm" title="Limpar campos">Limpar campos</button>
-        </div>
-      </div>
+    <div class="max-w-3xl mx-auto p-4 sm:p-6 md:p-8">
 
-      <div class="progress">
-        <div class="bar" aria-label="Progresso"><span id="barFill"></span></div>
-        <div class="meter"><span id="countDone">0</span>/<span id="countTotal">0</span> • <span id="pct">0%</span></div>
-      </div>
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-slate-800">Checklist de Lançamento de NF</h1>
+            <p class="text-slate-500 mt-2">Selecione o tipo de NF e siga as etapas para garantir a conclusão.</p>
+        </header>
 
-      <div class="list" id="list"></div>
-
-      <div class="footer">
-        <div><span class="ghost">Dica:</span> Preencha os campos do produto e marque cada conferência. Tudo salva automático no navegador (localStorage).</div>
-        <div>Feito com 🖤 — versão <strong>2.0 (Cadastro)</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <svg width="0" height="0" style="position:absolute">
-    <symbol id="checkmark" viewBox="0 0 24 24"><path fill="currentColor" d="M20.285 6.709a1 1 0 0 1 0 1.414l-9.192 9.192a1 1 0 0 1-1.414 0L3.715 11.55a1 1 0 1 1 1.414-1.414l5.243 5.243 8.485-8.485a1 1 0 0 1 1.428-.185z"/></symbol>
-  </svg>
-
-  <script>
-    (function(){
-      const $ = (q,el=document)=>el.querySelector(q);
-      const $$ = (q,el=document)=>Array.from(el.querySelectorAll(q));
-      const STORAGE_KEY = 'checklist_v2_cadastro';
-      const listEl = $('#list');
-      const barFill = $('#barFill');
-      const countDone = $('#countDone');
-      const countTotal = $('#countTotal');
-      const pct = $('#pct');
-      const btnExport = $('#btnExport');
-      const btnClearDone = $('#btnClearDone');
-      const fileImport = $('#fileImport');
-
-      // Form fields
-      const fSku = $('#fSku');
-      const fDesc = $('#fDesc');
-      const fNcm = $('#fNcm');
-      const fGtin = $('#fGtin');
-      const btnClearForm = $('#btnClearForm');
-
-      /** Data **/
-      let state = load() || seed();
-
-      function uid(){return Math.random().toString(36).slice(2,9)}
-
-      function seed(){
-        return {
-          form:{sku:'', desc:'', ncm:'', gtin:''},
-          items:[
-            {id:uid(), text:'Conferir SKU preenchido e padronizado', done:false, tag:'Obrigatório'},
-            {id:uid(), text:'Conferir DESCRIÇÃO clara e no padrão interno', done:false, tag:'Obrigatório'},
-            {id:uid(), text:'Conferir NCM compatível com o produto', done:false, tag:'Obrigatório'},
-            {id:uid(), text:'Conferir EAN/GTIN válido (código de barras)', done:false, tag:'Obrigatório'}
-          ]
-        };
-      }
-
-      function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-      function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||''); }catch(e){ return null; } }
-
-      // Bind form
-      function applyForm(){
-        fSku.value = state.form.sku||'';
-        fDesc.value = state.form.desc||'';
-        fNcm.value = state.form.ncm||'';
-        fGtin.value = state.form.gtin||'';
-      }
-      function attachFormEvents(){
-        [fSku,fDesc,fNcm,fGtin].forEach((inp)=>{
-          inp.addEventListener('input', ()=>{
-            state.form = {sku:fSku.value.trim(), desc:fDesc.value.trim(), ncm:fNcm.value.trim(), gtin:fGtin.value.trim()};
-            save();
-          });
-        });
-        btnClearForm.addEventListener('click', ()=>{
-          fSku.value=fDesc.value=fNcm.value=fGtin.value='';
-          state.form = {sku:'',desc:'',ncm:'',gtin:''};
-          save();
-        });
-      }
-
-      /** Render checklist **/
-      function render(){
-        listEl.innerHTML = '';
-        for(const it of state.items){
-          const row = document.createElement('div');
-          row.className = 'item';
-          row.dataset.id = it.id;
-          row.innerHTML = `
-            <div class="check ${it.done?'done':''}" role="checkbox" aria-checked="${it.done}" tabindex="0">
-              <svg width="16" height="16"><use href="#checkmark"/></svg>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="nf-type" class="block text-sm font-medium text-slate-700 mb-1">Tipo de Nota Fiscal:</label>
+                <select id="nf-type" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 transition">
+                    <option value="venda">NF de Venda</option>
+                    <option value="remessa">NF de Remessa (Bonificação/Doação/Brinde)</option>
+                </select>
             </div>
-            <div class="text" contenteditable="true">${escapeHtml(it.text)}</div>
-            <div class="actions">
-              ${it.tag?`<span class="pill">${escapeHtml(it.tag)}</span>`:''}
-              <button class="btn danger" data-action="del">Excluir</button>
-            </div>`;
-          listEl.appendChild(row);
+            <div>
+              <label for="nf-number" class="block text-sm font-medium text-slate-700 mb-1">Número da Nota Fiscal:</label>
+              <input type="text" id="nf-number" placeholder="Digite o número da NF aqui..." class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-sky-500 focus:border-sky-500 transition">
+              <p id="nf-number-error" class="error-message mt-1 h-4"></p>
+            </div>
+        </div>
+
+        <main id="checklist-container" class="bg-white p-6 rounded-xl shadow-md border border-slate-200 space-y-3">
+            <!-- Checklist items will be generated by JS -->
+        </main>
+
+        <footer class="mt-8 p-4 bg-white rounded-xl shadow-md border border-slate-200">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-slate-600">Progresso</span>
+                <span id="progress-text" class="text-sm font-bold text-sky-600">0/0</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-3">
+                <div id="progress-bar" class="bg-sky-500 h-3 rounded-full progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-end mt-4 space-x-3">
+                <button id="reset-button" class="px-5 py-2 bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+                    Reiniciar
+                </button>
+                 <button id="concluido-button" class="px-5 py-2 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+                    Concluído
+                </button>
+            </div>
+        </footer>
+
+        <section class="mt-10">
+            <h2 class="text-2xl font-bold text-slate-800 text-center mb-4">Histórico de Conclusão</h2>
+            <div id="history-list-container" class="bg-white p-6 rounded-xl shadow-md border border-slate-200 min-h-[60px]">
+                <p class="text-slate-500 text-center">Carregando histórico...</p>
+            </div>
+             <div class="flex justify-end mt-4">
+                 <button id="clear-history-button" class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" disabled>
+                    Limpar Histórico
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Custom Modal -->
+    <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <div class="modal-container bg-white w-full max-w-md p-6 rounded-lg shadow-xl transform scale-95 opacity-0">
+            <h3 id="modal-title" class="text-lg font-bold text-slate-800">Confirmação</h3>
+            <p id="modal-message" class="mt-2 text-slate-600">Você tem certeza?</p>
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="modal-cancel" class="px-4 py-2 bg-slate-200 text-slate-800 font-semibold rounded-lg hover:bg-slate-300 transition">Cancelar</button>
+                <button id="modal-confirm" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, getDocs, writeBatch, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- GLOBAL STATE ---
+        let db;
+        let auth;
+        let userId;
+        let nfHistoryUnsubscribe = null;
+        
+        // Use __app_id if available, otherwise fallback to a default
+        const __app_id = typeof globalThis.__app_id !== 'undefined' ? globalThis.__app_id : 'default-checklist-app';
+
+        // --- CHECKLIST DATA ---
+        const checklists = {
+            venda: [
+                { text: 'Associação ao Pedido de Compra' },
+                { text: 'Checar parcelas/pagamento' },
+                { text: 'Preencher comprador e projeto' },
+                {
+                    text: 'Gerador de Observação da NF:',
+                    type: 'generator'
+                },
+                {
+                    text: 'Abrir os itens e checar:',
+                    subitems: [
+                        { text: 'Local de estoque' },
+                        { text: 'CFOP de entrada' },
+                        { text: 'Marcar os impostos na ultima aba' }
+                    ]
+                }
+            ],
+            remessa: [
+                { type: 'info', text: '<strong>Guia Rápido:</strong> O CFOP do fornecedor geralmente é 5910 ou 6910. Itens bonificados não geram contas a pagar.' },
+                { text: 'Deixar o campo "Comprador" em branco' },
+                { text: 'Preencher o "Projeto" que o item será usado (ex: NATAL)' },
+                {
+                    text: 'Gerador de Observação da NF:',
+                    type: 'generator'
+                },
+                {
+                    text: 'Ao abrir os itens, checar e ajustar:',
+                    subitems: [
+                        { text: 'Marcar a opção "Não gerar contas a pagar"' },
+                        { text: 'Definir o "Local de estoque" correto' },
+                        { text: 'Ajustar "CFOP de entrada" (se for para venda, usar 1102; caso contrário, consultar gestor)' },
+                        { text: 'Marcar os impostos na última aba' }
+                    ]
+                }
+            ]
+        };
+
+        // --- UI ELEMENTS ---
+        const nfTypeSelect = document.getElementById('nf-type');
+        const nfNumberInput = document.getElementById('nf-number');
+        const nfNumberError = document.getElementById('nf-number-error');
+        const checklistContainer = document.getElementById('checklist-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const concluidoButton = document.getElementById('concluido-button');
+        const resetButton = document.getElementById('reset-button');
+        const historyContainer = document.getElementById('history-list-container');
+        const clearHistoryButton = document.getElementById('clear-history-button');
+
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('custom-modal');
+        const modalConfirmBtn = document.getElementById('modal-confirm');
+        const modalCancelBtn = document.getElementById('modal-cancel');
+        let confirmCallback = null;
+
+        function showModal({ title, message, confirmText, onConfirm }) {
+            modal.querySelector('#modal-title').textContent = title;
+            modal.querySelector('#modal-message').textContent = message;
+            modalConfirmBtn.textContent = confirmText;
+            confirmCallback = onConfirm;
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modal.querySelector('.modal-container').classList.remove('scale-95', 'opacity-0');
         }
-        updateProgress();
-      }
 
-      function updateProgress(){
-        const total = state.items.length;
-        const done = state.items.filter(i=>i.done).length;
-        const p = total ? Math.round((done/total)*100) : 0;
-        countTotal.textContent = total;
-        countDone.textContent = done;
-        pct.textContent = p + '%';
-        barFill.style.width = p + '%';
-      }
-
-      function escapeHtml(s){
-        return String(s).replace(/[&<>"]|'/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]||m));
-      }
-
-      /** Events **/
-      listEl.addEventListener('click', e=>{
-        const row = e.target.closest('.item');
-        if(!row) return;
-        const id = row.dataset.id;
-        if(e.target.closest('.check')){
-          const it = state.items.find(i=>i.id===id); if(!it) return;
-          it.done = !it.done; save(); render();
+        function hideModal() {
+            modal.classList.add('pointer-events-none', 'opacity-0');
+            modal.querySelector('.modal-container').classList.add('scale-95', 'opacity-0');
+            confirmCallback = null;
         }
-        if(e.target.matches('[data-action="del"]')){
-          state.items = state.items.filter(i=>i.id!==id); save(); render();
+
+        modalConfirmBtn.addEventListener('click', () => {
+            if (confirmCallback) confirmCallback();
+            hideModal();
+        });
+        modalCancelBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) hideModal();
+        });
+
+        // --- INPUT FORMATTERS ---
+        function autoFormatDate(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove todos os não-dígitos
+            
+            // Limita a 8 dígitos (DDMMAAAA)
+            if (value.length > 8) {
+                value = value.substring(0, 8);
+            }
+
+            if (value.length > 4) {
+                // Formato DD/MM/AAAA
+                value = `${value.substring(0, 2)}/${value.substring(2, 4)}/${value.substring(4)}`;
+            } else if (value.length > 2) {
+                // Formato DD/MM
+                value = `${value.substring(0, 2)}/${value.substring(2)}`;
+            }
+            
+            // Seta o valor formatado de volta no input
+            e.target.value = value;
         }
-      });
 
-      listEl.addEventListener('keydown', e=>{
-        if(e.key==='Enter' && e.target.classList.contains('text')){
-          e.preventDefault(); e.target.blur();
+        // --- GENERATOR HTML ---
+        function getGeneratorHTML() {
+            return `
+            <div class="generator-container bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+    
+                <!-- Campos Gerais -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="obs-responsavel" class="block text-sm font-medium text-slate-700 mb-1">Responsável Recebimento:</label>
+                        <input type="text" id="obs-responsavel" placeholder="Nome do responsável" class="w-full obs-input px-3 py-2 border border-slate-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label for="obs-data" class="block text-sm font-medium text-slate-700 mb-1">Data Recebimento:</label>
+                        <input type="text" id="obs-data" placeholder="DD/MM/AAAA" class="w-full obs-input px-3 py-2 border border-slate-300 rounded-lg">
+                    </div>
+                </div>
+
+                <!-- Seção de Itens (Validade/Lote) -->
+                <div class="border-t border-slate-200 pt-4 space-y-3">
+                    <h4 class="text-md font-semibold text-slate-700">Adicionar Validade por Item</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+                        <div class="md:col-span-1">
+                            <label for="item-numero" class="block text-xs font-medium text-slate-600 mb-1">Nº Item <span class="text-red-500">*</span></label>
+                            <input type="number" id="item-numero" placeholder="Ex: 1" class="w-full item-input px-3 py-2 border border-slate-300 rounded-lg">
+                        </div>
+                        <div class="md:col-span-1">
+                            <label for="item-lote" class="block text-xs font-medium text-slate-600 mb-1">Lote (Opcional)</label>
+                            <input type="text" id="item-lote" placeholder="Ex: LOTE55" class="w-full item-input px-3 py-2 border border-slate-300 rounded-lg">
+                        </div>
+                        <div class="md:col-span-1">
+                            <label for="item-validade" class="block text-xs font-medium text-slate-600 mb-1">Validade <span class="text-red-500">*</span></label>
+                            <input type="text" id="item-validade" placeholder="DD/MM/AAAA" class="w-full item-input px-3 py-2 border border-slate-300 rounded-lg">
+                        </div>
+                        <div class="md:col-span-1">
+                            <button id="add-item-btn" class="w-full px-4 py-2 bg-sky-600 text-white font-semibold rounded-lg hover:bg-sky-700 transition">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Itens Adicionados -->
+                <div id="items-list" class="space-y-2">
+                    <!-- Itens adicionados aparecerão aqui -->
+                </div>
+
+                <!-- Resultado Final -->
+                <div class="border-t border-slate-200 pt-4 space-y-3">
+                    <button id="generate-obs-btn" class="w-full px-5 py-2.5 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition text-lg">Gerar Observação Completa</button>
+                    <div class="relative">
+                        <input type="text" id="obs-result" placeholder="Sua observação gerada aparecerá aqui..." class="w-full px-3 py-2 border border-slate-300 rounded-lg bg-slate-100 text-slate-700 pr-20" readonly>
+                        <button id="copy-obs-btn" class="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-500 text-white text-xs font-semibold rounded-md hover:bg-slate-600 transition">Copiar</button>
+                    </div>
+                </div>
+
+            </div>
+            `;
         }
-      });
-
-      listEl.addEventListener('blur', e=>{
-        if(e.target.classList.contains('text')){
-          const row = e.target.closest('.item');
-          const it = state.items.find(i=>i.id===row.dataset.id);
-          if(it){ it.text = e.target.textContent.trim(); save(); updateProgress(); }
+        
+        // --- CORE APPLICATION LOGIC ---
+        function generateChecklistHTML(items) {
+            let html = '';
+            items.forEach((item, index) => {
+                const id = `item-${index}`;
+                
+                if (item.type === 'info') {
+                    html += `<div class="info-item rounded-lg">${item.text}</div>`;
+                } else if (item.type === 'generator') {
+                     html += `<div>
+                                <label class="font-medium text-slate-800">${item.text}</label>
+                                ${getGeneratorHTML()}
+                              </div>`;
+                } else {
+                    html += `<div class="checklist-item flex items-start p-2 rounded-lg transition-colors duration-200 hover:bg-slate-50"><input type="checkbox" id="${id}" class="mt-1 mr-4 rounded border-slate-300 text-sky-500 focus:ring-sky-500"><label for="${id}" class="flex-1 font-medium text-slate-800">${item.text}</label></div>`;
+                }
+                
+                if (item.subitems && item.subitems.length > 0) {
+                    html += '<div class="pl-8 space-y-2 mt-1 mb-2">';
+                    item.subitems.forEach((subitem, subIndex) => {
+                        const subId = `item-${index}-${subIndex}`;
+                        html += `<div class="checklist-item flex items-start p-2 rounded-lg transition-colors duration-200 hover:bg-slate-50"><input type="checkbox" id="${subId}" class="mt-1 mr-4 rounded border-slate-300 text-sky-500 focus:ring-sky-500"><label for="${subId}" class="flex-1 text-slate-600">${subitem.text}</label></div>`;
+                    });
+                    html += '</div>';
+                }
+            });
+            return html;
         }
-      }, true);
+        
+        function renderChecklistForType(type) {
+            const items = checklists[type] || [];
+            checklistContainer.innerHTML = generateChecklistHTML(items);
+            
+            // Add listeners for checklist items
+            checklistContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', updateProgressAndButtonState);
+            });
+            
+            // Add listeners for generator
+            const addItemBtn = checklistContainer.querySelector('#add-item-btn');
+            if (addItemBtn) addItemBtn.addEventListener('click', handleAddItem);
 
-      // Export/Import backup
-      btnExport.addEventListener('click', ()=>{
-        const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        const sku = state.form.sku?`_${state.form.sku}`:'';
-        a.href = url; a.download = `cadastro_checklist${sku}.json`; a.click();
-        URL.revokeObjectURL(url);
-      });
+            const itemsList = checklistContainer.querySelector('#items-list');
+            if (itemsList) itemsList.addEventListener('click', handleRemoveItem);
 
-      btnClearDone.addEventListener('click', ()=>{
-        state.items = state.items.filter(i=>!i.done); save(); render();
-      });
+            const generateBtn = checklistContainer.querySelector('#generate-obs-btn');
+            if (generateBtn) generateBtn.addEventListener('click', handleGenerateObs);
 
-      fileImport.addEventListener('change', async (e)=>{
-        const f = e.target.files[0]; if(!f) return;
-        const txt = await f.text();
-        try{
-          const data = JSON.parse(txt);
-          if(data && Array.isArray(data.items) && data.form){
-            state = {
-              form:{
-                sku: String(data.form.sku||''),
-                desc: String(data.form.desc||''),
-                ncm: String(data.form.ncm||''),
-                gtin: String(data.form.gtin||'')
-              },
-              items: data.items.filter(x=>x && typeof x.text==='string').map(x=>({
-                id: x.id || uid(), text: String(x.text), done: !!x.done, tag: x.tag?String(x.tag):''
-              }))
-            };
-            save(); applyForm(); render();
-          } else if (Array.isArray(data)) { // retrocompatível com v1 (lista simples)
-            state.items = data.filter(x=>x && typeof x.text==='string').map(x=>({
-              id: x.id || uid(), text: String(x.text), done: !!x.done, tag: x.tag?String(x.tag):''
-            }));
-            save(); render();
-          } else { alert('Arquivo inválido.'); }
-        }catch(err){ alert('JSON inválido.'); }
-        fileImport.value='';
-      });
+            const copyBtn = checklistContainer.querySelector('#copy-obs-btn');
+            if (copyBtn) copyBtn.addEventListener('click', handleCopyObs);
+            
+            // --- NOVO: Adiciona formatador de data ---
+            const obsDataInput = checklistContainer.querySelector('#obs-data');
+            if (obsDataInput) obsDataInput.addEventListener('input', autoFormatDate);
 
-      // Init
-      applyForm();
-      attachFormEvents();
-      render();
-    })();
-  </script>
+            const itemValidadeInput = checklistContainer.querySelector('#item-validade');
+            if (itemValidadeInput) itemValidadeInput.addEventListener('input', autoFormatDate);
+            // --- Fim do novo código ---
+            
+            updateProgressAndButtonState();
+        }
+
+        function updateProgressAndButtonState() {
+            const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            
+            const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const percentage = total > 0 ? (checkedCount / total) * 100 : 0;
+
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${checkedCount}/${total}`;
+
+            checkboxes.forEach(cb => {
+                cb.closest('.checklist-item').classList.toggle('checked', cb.checked);
+            });
+
+            concluidoButton.disabled = checkedCount !== total || total === 0;
+        }
+
+        function resetGenerator() {
+            checklistContainer.querySelectorAll('.obs-input, .item-input, #obs-result').forEach(input => input.value = '');
+            const itemsList = checklistContainer.querySelector('#items-list');
+            if (itemsList) itemsList.innerHTML = '';
+            const copyBtn = checklistContainer.querySelector('#copy-obs-btn');
+            if(copyBtn) copyBtn.textContent = 'Copiar';
+        }
+
+        function resetChecklist() {
+            nfTypeSelect.value = 'venda'; // Reset dropdown
+            renderChecklistForType('venda'); // Re-render default checklist
+            nfNumberInput.value = '';
+            nfNumberInput.classList.remove('input-error');
+            nfNumberError.textContent = '';
+            // resetGenerator() is called implicitly by renderChecklistForType
+            updateProgressAndButtonState();
+        }
+
+        // --- GENERATOR LOGIC ---
+
+        function handleAddItem() {
+            const numInput = checklistContainer.querySelector('#item-numero');
+            const loteInput = checklistContainer.querySelector('#item-lote');
+            const validadeInput = checklistContainer.querySelector('#item-validade');
+            const itemsList = checklistContainer.querySelector('#items-list');
+
+            const num = numInput.value.trim();
+            const lote = loteInput.value.trim();
+            const validade = validadeInput.value.trim();
+
+            // Validação simples
+            if (!num || !validade) {
+                showModal({ title: 'Campo Obrigatório', message: 'Por favor, preencha o "Nº Item" e a "Validade".', confirmText: 'OK', onConfirm: () => {} });
+                return;
+            }
+
+            let itemString = `${num} - `;
+            itemString += `val:${validade};`; // Adiciona a validade primeiro, com seu próprio ponto e vírgula
+
+            if (lote) {
+                itemString += ` lote:${lote};`; // Adiciona o lote (com espaço) e seu próprio ponto e vírgula
+            }
+
+            const itemTag = document.createElement('div');
+            itemTag.className = 'item-tag';
+            itemTag.innerHTML = `
+                <span>${itemString}</span>
+                <button class="remove-item-btn" data-text="${itemString}">&times;</button>
+            `;
+            itemsList.appendChild(itemTag);
+
+            // Limpar campos
+            numInput.value = '';
+            loteInput.value = '';
+            validadeInput.value = '';
+            numInput.focus();
+        }
+
+        function handleRemoveItem(e) {
+            if (e.target.classList.contains('remove-item-btn')) {
+                e.target.closest('.item-tag').remove();
+            }
+        }
+
+        function handleGenerateObs() {
+            const resp = checklistContainer.querySelector('#obs-responsavel').value.trim();
+            const data = checklistContainer.querySelector('#obs-data').value.trim();
+            const itemsList = checklistContainer.querySelectorAll('#items-list .item-tag span');
+            const resultInput = checklistContainer.querySelector('#obs-result');
+
+            let finalObs = [];
+
+            itemsList.forEach(item => {
+                finalObs.push(item.textContent.trim());
+            });
+
+            if (resp) {
+                finalObs.push(`resp:${resp};`);
+            }
+            if (data) {
+                finalObs.push(`data:${data};`);
+            }
+
+            resultInput.value = finalObs.join(' ');
+        }
+
+        function handleCopyObs() {
+            const resultInput = checklistContainer.querySelector('#obs-result');
+            const copyBtn = checklistContainer.querySelector('#copy-obs-btn');
+            
+            if (!resultInput.value) return;
+
+            // Usando document.execCommand para compatibilidade com iframe
+            resultInput.select();
+            resultInput.setSelectionRange(0, 99999); // Para mobile
+            try {
+                document.execCommand('copy');
+                copyBtn.textContent = 'Copiado!';
+                setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 2000);
+            } catch (err) {
+                console.error('Falha ao copiar texto: ', err);
+                showModal({ title: 'Erro', message: 'Não foi possível copiar o texto automaticamente.', confirmText: 'OK', onConfirm: () => {} });
+            }
+            // Desfazer seleção
+            window.getSelection().removeAllRanges();
+        }
+
+        // --- Helper de Cópia (para texto arbitrário) ---
+        function copyTextToClipboard(text, successCallback) {
+            // Cria um textarea temporário para copiar
+            const el = document.createElement('textarea');
+            el.value = text;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px'; // Move para fora da tela
+            document.body.appendChild(el);
+            
+            el.select();
+            el.setSelectionRange(0, 99999); // Para mobile
+
+            try {
+                document.execCommand('copy');
+                if (successCallback) successCallback();
+            } catch (err) {
+                console.error('Falha ao copiar texto: ', err);
+                showModal({ title: 'Erro', message: 'Não foi possível copiar o texto automaticamente.', confirmText: 'OK', onConfirm: () => {} });
+            }
+            
+            // Limpa e remove o textarea
+            document.body.removeChild(el);
+            window.getSelection().removeAllRanges();
+        }
+
+
+        // --- HISTORY & FIREBASE LOGIC ---
+
+        function formatTimestamp(timestamp) {
+            if (!timestamp || !timestamp.seconds) {
+                return 'Data indisponível';
+            }
+            const date = new Date(timestamp.seconds * 1000);
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return date.toLocaleString('pt-BR', options);
+        }
+
+        function renderHistory(history) {
+            const historyContainer = document.getElementById('history-list-container');
+            
+            if (history.length === 0) {
+                historyContainer.innerHTML = '<p class="text-slate-500 text-center">Nenhuma NF concluída ainda.</p>';
+                return;
+            }
+
+            // Sort history by timestamp descending
+            history.sort((a, b) => {
+                const timeA = a.timestamp ? a.timestamp.seconds : 0;
+                const timeB = b.timestamp ? b.timestamp.seconds : 0;
+                return timeB - timeA;
+            });
+
+            let historyHTML = '<ul class="space-y-2">';
+            history.forEach(item => {
+                if (!item.timestamp) return; // Skip items without timestamp
+                const typeLabel = item.nfType === 'venda' ? 'Venda' : 'Remessa';
+                const formattedTime = formatTimestamp(item.timestamp);
+                historyHTML += `
+                    <li class="text-slate-600 p-2 border-b border-slate-100 flex justify-between items-center">
+                        <span class="truncate" title="NF ${item.nf} (${typeLabel}) — concluída em ${formattedTime}">
+                            <strong>NF ${item.nf}</strong> (${typeLabel}) — ${formattedTime}
+                        </span>
+                        <button class="copy-nf-btn" data-nf="${item.nf}">Copiar Nº</button>
+                    </li>`;
+            });
+            historyHTML += '</ul>';
+            historyContainer.innerHTML = historyHTML;
+        }
+
+        async function completeTask() {
+            const nfNumber = nfNumberInput.value.trim();
+            const nfType = nfTypeSelect.value;
+
+            if (!nfNumber) {
+                nfNumberInput.classList.add('input-error');
+                nfNumberError.textContent = 'Campo obrigatório';
+                nfNumberInput.focus();
+                return;
+            } else {
+                nfNumberInput.classList.remove('input-error');
+                nfNumberError.textContent = '';
+            }
+            
+            try {
+                const historyCollection = collection(db, 'artifacts', __app_id, 'users', userId, 'nfHistory');
+                await addDoc(historyCollection, {
+                    nf: nfNumber,
+                    nfType: nfType,
+                    timestamp: serverTimestamp()
+                });
+                
+                // Show success feedback
+                showModal({ title: 'Sucesso!', message: `NF ${nfNumber} marcada como concluída.`, confirmText: 'OK', onConfirm: resetChecklist });
+                
+            } catch (error) {
+                console.error("Erro ao salvar NF: ", error);
+                 showModal({ title: 'Erro ao Salvar', message: 'Não foi possível salvar a NF. Verifique sua conexão e tente novamente.', confirmText: 'OK', onConfirm: () => {} });
+            }
+        }
+
+        async function clearHistory() {
+            showModal({
+                title: 'Limpar Histórico',
+                message: 'Tem certeza que deseja apagar todo o histórico de NFs? Esta ação não pode ser desfeita.',
+                confirmText: 'Limpar Tudo',
+                onConfirm: async () => {
+                    if (!db || !userId) {
+                         showModal({ title: 'Erro', message: 'Não foi possível apagar o histórico. Tente recarregar a página.', confirmText: 'OK', onConfirm: () => {} });
+                        return;
+                    }
+                    try {
+                        // Query all documents
+                        const historyCollection = collection(db, 'artifacts', __app_id, 'users', userId, 'nfHistory');
+                        const snapshot = await getDocs(historyCollection);
+                        
+                        if (snapshot.empty) return;
+
+                        // Create a batch write
+                        const batch = writeBatch(db);
+                        snapshot.docs.forEach(docRef => {
+                            batch.delete(docRef.ref);
+                        });
+                        
+                        // Commit the batch
+                        await batch.commit();
+                        
+                    } catch (error) {
+                        console.error("Erro ao limpar histórico: ", error);
+                        showModal({ title: 'Erro', message: 'Não foi possível limpar o histórico.', confirmText: 'OK', onConfirm: () => {} });
+                    }
+                }
+            });
+        }
+        
+        // Nova função para copiar NF do histórico
+        function handleCopyNfFromHistory(e) {
+            const copyBtn = e.target.closest('.copy-nf-btn');
+            if (!copyBtn) return; // Não foi um clique no botão de copiar
+
+            const nf = copyBtn.dataset.nf;
+            if (!nf) return;
+
+            copyTextToClipboard(nf, () => {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copiado!';
+                copyBtn.disabled = true;
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.disabled = false;
+                }, 2000);
+            });
+        }
+
+        function listenForHistoryChanges() {
+            if (nfHistoryUnsubscribe) nfHistoryUnsubscribe(); // Unsubscribe from old listener
+            
+            if (!db || !userId) {
+                console.warn("DB or UserID not ready, skipping history listener.");
+                return;
+            }
+
+            const historyCollection = collection(db, 'artifacts', __app_id, 'users', userId, 'nfHistory');
+            const q = query(historyCollection); // We sort on the client-side
+
+            nfHistoryUnsubscribe = onSnapshot(q, (snapshot) => {
+                const history = [];
+                snapshot.forEach((doc) => {
+                    history.push(doc.data());
+                });
+                renderHistory(history);
+                clearHistoryButton.disabled = history.length === 0;
+            }, (error) => {
+                console.error("Erro ao carregar histórico: ", error);
+                historyContainer.innerHTML = '<p class="text-slate-500 text-center text-red-500">Erro ao carregar histórico.</p>';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add event listeners to static elements
+            nfTypeSelect.addEventListener('change', (e) => renderChecklistForType(e.target.value));
+            resetButton.addEventListener('click', resetChecklist);
+            concluidoButton.addEventListener('click', completeTask);
+            clearHistoryButton.addEventListener('click', clearHistory);
+            historyContainer.addEventListener('click', handleCopyNfFromHistory); // Listener para o histórico
+            
+            // Initial render
+            renderChecklistForType(nfTypeSelect.value);
+            updateProgressAndButtonState();
+            
+            // --- FIREBASE INIT ---
+            try {
+                const firebaseConfig = JSON.parse(globalThis.__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                    } else {
+                        // Try custom token auth
+                        try {
+                            if (typeof globalThis.__initial_auth_token !== 'undefined') {
+                                await signInWithCustomToken(auth, globalThis.__initial_auth_token);
+                                userId = auth.currentUser.uid;
+                            } else {
+                                throw new Error('No initial auth token');
+                            }
+                        } catch (e) {
+                            // Fallback to anonymous
+                            console.warn("Could not sign in with token, falling back to anonymous.", e);
+                            await signInAnonymously(auth);
+                            userId = auth.currentUser.uid;
+                        }
+                    }
+                    console.log("Auth state ready. UserID:", userId);
+                    // Start listening to history changes once auth is ready
+                    listenForHistoryChanges();
+                });
+
+            } catch (e) {
+                console.error("Erro ao inicializar Firebase:", e);
+                historyContainer.innerHTML = '<p class="text-slate-500 text-center text-red-500">Erro fatal ao carregar o app.</p>';
+                checklistContainer.innerHTML = '<p class="text-slate-500 text-center text-red-500">Erro fatal ao carregar o app.</p>';
+            }
+        });
+    </script>
 </body>
 </html>
