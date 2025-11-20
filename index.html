@@ -118,6 +118,7 @@
         <header class="text-center mb-8">
             <h1 class="text-3xl font-bold text-slate-800">Checklist de Lançamento de NF</h1>
             <p class="text-slate-500 mt-2">Selecione o tipo de NF e siga as etapas para garantir a conclusão.</p>
+            <p class="text-xs text-slate-400 mt-1">(Modo Offline / LocalStorage)</p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -183,19 +184,9 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, getDocs, writeBatch, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // --- GLOBAL STATE ---
-        let db;
-        let auth;
-        let userId;
-        let nfHistoryUnsubscribe = null;
-        
-        // Use __app_id if available, otherwise fallback to a default
-        const __app_id = typeof globalThis.__app_id !== 'undefined' ? globalThis.__app_id : 'default-checklist-app';
+    <script>
+        // --- LOCAL STORAGE KEY ---
+        const LS_KEY = 'checklist_nf_history_v1';
 
         // --- CHECKLIST DATA ---
         const checklists = {
@@ -280,22 +271,13 @@
 
         // --- INPUT FORMATTERS ---
         function autoFormatDate(e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove todos os não-dígitos
-            
-            // Limita a 8 dígitos (DDMMAAAA)
-            if (value.length > 8) {
-                value = value.substring(0, 8);
-            }
-
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 8) value = value.substring(0, 8);
             if (value.length > 4) {
-                // Formato DD/MM/AAAA
                 value = `${value.substring(0, 2)}/${value.substring(2, 4)}/${value.substring(4)}`;
             } else if (value.length > 2) {
-                // Formato DD/MM
                 value = `${value.substring(0, 2)}/${value.substring(2)}`;
             }
-            
-            // Seta o valor formatado de volta no input
             e.target.value = value;
         }
 
@@ -303,8 +285,6 @@
         function getGeneratorHTML() {
             return `
             <div class="generator-container bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
-    
-                <!-- Campos Gerais -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label for="obs-responsavel" class="block text-sm font-medium text-slate-700 mb-1">Responsável Recebimento:</label>
@@ -315,8 +295,6 @@
                         <input type="text" id="obs-data" placeholder="DD/MM/AAAA" class="w-full obs-input px-3 py-2 border border-slate-300 rounded-lg">
                     </div>
                 </div>
-
-                <!-- Seção de Itens (Validade/Lote) -->
                 <div class="border-t border-slate-200 pt-4 space-y-3">
                     <h4 class="text-md font-semibold text-slate-700">Adicionar Validade por Item</h4>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
@@ -337,13 +315,7 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Lista de Itens Adicionados -->
-                <div id="items-list" class="space-y-2">
-                    <!-- Itens adicionados aparecerão aqui -->
-                </div>
-
-                <!-- Resultado Final -->
+                <div id="items-list" class="space-y-2"></div>
                 <div class="border-t border-slate-200 pt-4 space-y-3">
                     <button id="generate-obs-btn" class="w-full px-5 py-2.5 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition text-lg">Gerar Observação Completa</button>
                     <div class="relative">
@@ -351,7 +323,6 @@
                         <button id="copy-obs-btn" class="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-500 text-white text-xs font-semibold rounded-md hover:bg-slate-600 transition">Copiar</button>
                     </div>
                 </div>
-
             </div>
             `;
         }
@@ -389,12 +360,10 @@
             const items = checklists[type] || [];
             checklistContainer.innerHTML = generateChecklistHTML(items);
             
-            // Add listeners for checklist items
             checklistContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', updateProgressAndButtonState);
             });
             
-            // Add listeners for generator
             const addItemBtn = checklistContainer.querySelector('#add-item-btn');
             if (addItemBtn) addItemBtn.addEventListener('click', handleAddItem);
 
@@ -407,13 +376,11 @@
             const copyBtn = checklistContainer.querySelector('#copy-obs-btn');
             if (copyBtn) copyBtn.addEventListener('click', handleCopyObs);
             
-            // --- NOVO: Adiciona formatador de data ---
             const obsDataInput = checklistContainer.querySelector('#obs-data');
             if (obsDataInput) obsDataInput.addEventListener('input', autoFormatDate);
 
             const itemValidadeInput = checklistContainer.querySelector('#item-validade');
             if (itemValidadeInput) itemValidadeInput.addEventListener('input', autoFormatDate);
-            // --- Fim do novo código ---
             
             updateProgressAndButtonState();
         }
@@ -421,7 +388,6 @@
         function updateProgressAndButtonState() {
             const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
             const total = checkboxes.length;
-            
             const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
             const percentage = total > 0 ? (checkedCount / total) * 100 : 0;
 
@@ -444,17 +410,15 @@
         }
 
         function resetChecklist() {
-            nfTypeSelect.value = 'venda'; // Reset dropdown
-            renderChecklistForType('venda'); // Re-render default checklist
+            nfTypeSelect.value = 'venda';
+            renderChecklistForType('venda');
             nfNumberInput.value = '';
             nfNumberInput.classList.remove('input-error');
             nfNumberError.textContent = '';
-            // resetGenerator() is called implicitly by renderChecklistForType
             updateProgressAndButtonState();
         }
 
-        // --- GENERATOR LOGIC ---
-
+        // --- GENERATOR FUNCTIONS ---
         function handleAddItem() {
             const numInput = checklistContainer.querySelector('#item-numero');
             const loteInput = checklistContainer.querySelector('#item-lote');
@@ -465,28 +429,20 @@
             const lote = loteInput.value.trim();
             const validade = validadeInput.value.trim();
 
-            // Validação simples
             if (!num || !validade) {
                 showModal({ title: 'Campo Obrigatório', message: 'Por favor, preencha o "Nº Item" e a "Validade".', confirmText: 'OK', onConfirm: () => {} });
                 return;
             }
 
             let itemString = `${num} - `;
-            itemString += `val:${validade};`; // Adiciona a validade primeiro, com seu próprio ponto e vírgula
-
-            if (lote) {
-                itemString += ` lote:${lote};`; // Adiciona o lote (com espaço) e seu próprio ponto e vírgula
-            }
+            itemString += `val:${validade};`;
+            if (lote) itemString += ` lote:${lote};`;
 
             const itemTag = document.createElement('div');
             itemTag.className = 'item-tag';
-            itemTag.innerHTML = `
-                <span>${itemString}</span>
-                <button class="remove-item-btn" data-text="${itemString}">&times;</button>
-            `;
+            itemTag.innerHTML = `<span>${itemString}</span><button class="remove-item-btn" data-text="${itemString}">&times;</button>`;
             itemsList.appendChild(itemTag);
 
-            // Limpar campos
             numInput.value = '';
             loteInput.value = '';
             validadeInput.value = '';
@@ -506,17 +462,9 @@
             const resultInput = checklistContainer.querySelector('#obs-result');
 
             let finalObs = [];
-
-            itemsList.forEach(item => {
-                finalObs.push(item.textContent.trim());
-            });
-
-            if (resp) {
-                finalObs.push(`resp:${resp};`);
-            }
-            if (data) {
-                finalObs.push(`data:${data};`);
-            }
+            itemsList.forEach(item => finalObs.push(item.textContent.trim()));
+            if (resp) finalObs.push(`resp:${resp};`);
+            if (data) finalObs.push(`data:${data};`);
 
             resultInput.value = finalObs.join(' ');
         }
@@ -526,78 +474,77 @@
             const copyBtn = checklistContainer.querySelector('#copy-obs-btn');
             
             if (!resultInput.value) return;
-
-            // Usando document.execCommand para compatibilidade com iframe
             resultInput.select();
-            resultInput.setSelectionRange(0, 99999); // Para mobile
+            resultInput.setSelectionRange(0, 99999);
             try {
                 document.execCommand('copy');
                 copyBtn.textContent = 'Copiado!';
                 setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 2000);
             } catch (err) {
-                console.error('Falha ao copiar texto: ', err);
-                showModal({ title: 'Erro', message: 'Não foi possível copiar o texto automaticamente.', confirmText: 'OK', onConfirm: () => {} });
+                showModal({ title: 'Erro', message: 'Não foi possível copiar.', confirmText: 'OK', onConfirm: () => {} });
             }
-            // Desfazer seleção
             window.getSelection().removeAllRanges();
         }
 
-        // --- Helper de Cópia (para texto arbitrário) ---
         function copyTextToClipboard(text, successCallback) {
-            // Cria um textarea temporário para copiar
             const el = document.createElement('textarea');
             el.value = text;
             el.setAttribute('readonly', '');
             el.style.position = 'absolute';
-            el.style.left = '-9999px'; // Move para fora da tela
+            el.style.left = '-9999px';
             document.body.appendChild(el);
-            
             el.select();
-            el.setSelectionRange(0, 99999); // Para mobile
-
+            el.setSelectionRange(0, 99999);
             try {
                 document.execCommand('copy');
                 if (successCallback) successCallback();
             } catch (err) {
-                console.error('Falha ao copiar texto: ', err);
-                showModal({ title: 'Erro', message: 'Não foi possível copiar o texto automaticamente.', confirmText: 'OK', onConfirm: () => {} });
+                console.error('Falha ao copiar');
             }
-            
-            // Limpa e remove o textarea
             document.body.removeChild(el);
-            window.getSelection().removeAllRanges();
         }
 
+        // --- HISTORY LOGIC (LOCAL STORAGE) ---
 
-        // --- HISTORY & FIREBASE LOGIC ---
+        function getHistory() {
+            const data = localStorage.getItem(LS_KEY);
+            return data ? JSON.parse(data) : [];
+        }
 
-        function formatTimestamp(timestamp) {
-            if (!timestamp || !timestamp.seconds) {
-                return 'Data indisponível';
-            }
-            const date = new Date(timestamp.seconds * 1000);
+        function saveToHistory(nf, type) {
+            const history = getHistory();
+            const newEntry = {
+                nf: nf,
+                nfType: type,
+                timestamp: new Date().toISOString()
+            };
+            history.push(newEntry);
+            localStorage.setItem(LS_KEY, JSON.stringify(history));
+            renderHistory();
+        }
+
+        function formatTimestamp(isoString) {
+            if (!isoString) return 'Data indisponível';
+            const date = new Date(isoString);
             const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
             return date.toLocaleString('pt-BR', options);
         }
 
-        function renderHistory(history) {
-            const historyContainer = document.getElementById('history-list-container');
+        function renderHistory() {
+            const history = getHistory();
             
             if (history.length === 0) {
                 historyContainer.innerHTML = '<p class="text-slate-500 text-center">Nenhuma NF concluída ainda.</p>';
+                clearHistoryButton.disabled = true;
                 return;
             }
+            clearHistoryButton.disabled = false;
 
-            // Sort history by timestamp descending
-            history.sort((a, b) => {
-                const timeA = a.timestamp ? a.timestamp.seconds : 0;
-                const timeB = b.timestamp ? b.timestamp.seconds : 0;
-                return timeB - timeA;
-            });
+            // Sort by date descending
+            history.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
             let historyHTML = '<ul class="space-y-2">';
             history.forEach(item => {
-                if (!item.timestamp) return; // Skip items without timestamp
                 const typeLabel = item.nfType === 'venda' ? 'Venda' : 'Remessa';
                 const formattedTime = formatTimestamp(item.timestamp);
                 historyHTML += `
@@ -612,7 +559,7 @@
             historyContainer.innerHTML = historyHTML;
         }
 
-        async function completeTask() {
+        function completeTask() {
             const nfNumber = nfNumberInput.value.trim();
             const nfType = nfTypeSelect.value;
 
@@ -627,61 +574,29 @@
             }
             
             try {
-                const historyCollection = collection(db, 'artifacts', __app_id, 'users', userId, 'nfHistory');
-                await addDoc(historyCollection, {
-                    nf: nfNumber,
-                    nfType: nfType,
-                    timestamp: serverTimestamp()
-                });
-                
-                // Show success feedback
+                saveToHistory(nfNumber, nfType);
                 showModal({ title: 'Sucesso!', message: `NF ${nfNumber} marcada como concluída.`, confirmText: 'OK', onConfirm: resetChecklist });
-                
             } catch (error) {
-                console.error("Erro ao salvar NF: ", error);
-                 showModal({ title: 'Erro ao Salvar', message: 'Não foi possível salvar a NF. Verifique sua conexão e tente novamente.', confirmText: 'OK', onConfirm: () => {} });
+                console.error("Erro ao salvar:", error);
+                showModal({ title: 'Erro', message: 'Erro ao salvar no navegador.', confirmText: 'OK', onConfirm: () => {} });
             }
         }
 
-        async function clearHistory() {
+        function clearHistory() {
             showModal({
                 title: 'Limpar Histórico',
-                message: 'Tem certeza que deseja apagar todo o histórico de NFs? Esta ação não pode ser desfeita.',
+                message: 'Tem certeza que deseja apagar todo o histórico de NFs deste navegador?',
                 confirmText: 'Limpar Tudo',
-                onConfirm: async () => {
-                    if (!db || !userId) {
-                         showModal({ title: 'Erro', message: 'Não foi possível apagar o histórico. Tente recarregar a página.', confirmText: 'OK', onConfirm: () => {} });
-                        return;
-                    }
-                    try {
-                        // Query all documents
-                        const historyCollection = collection(db, 'artifacts', __app_id, 'users', userId, 'nfHistory');
-                        const snapshot = await getDocs(historyCollection);
-                        
-                        if (snapshot.empty) return;
-
-                        // Create a batch write
-                        const batch = writeBatch(db);
-                        snapshot.docs.forEach(docRef => {
-                            batch.delete(docRef.ref);
-                        });
-                        
-                        // Commit the batch
-                        await batch.commit();
-                        
-                    } catch (error) {
-                        console.error("Erro ao limpar histórico: ", error);
-                        showModal({ title: 'Erro', message: 'Não foi possível limpar o histórico.', confirmText: 'OK', onConfirm: () => {} });
-                    }
+                onConfirm: () => {
+                    localStorage.removeItem(LS_KEY);
+                    renderHistory();
                 }
             });
         }
-        
-        // Nova função para copiar NF do histórico
+
         function handleCopyNfFromHistory(e) {
             const copyBtn = e.target.closest('.copy-nf-btn');
-            if (!copyBtn) return; // Não foi um clique no botão de copiar
-
+            if (!copyBtn) return;
             const nf = copyBtn.dataset.nf;
             if (!nf) return;
 
@@ -696,78 +611,15 @@
             });
         }
 
-        function listenForHistoryChanges() {
-            if (nfHistoryUnsubscribe) nfHistoryUnsubscribe(); // Unsubscribe from old listener
-            
-            if (!db || !userId) {
-                console.warn("DB or UserID not ready, skipping history listener.");
-                return;
-            }
-
-            const historyCollection = collection(db, 'artifacts', __app_id, 'users', userId, 'nfHistory');
-            const q = query(historyCollection); // We sort on the client-side
-
-            nfHistoryUnsubscribe = onSnapshot(q, (snapshot) => {
-                const history = [];
-                snapshot.forEach((doc) => {
-                    history.push(doc.data());
-                });
-                renderHistory(history);
-                clearHistoryButton.disabled = history.length === 0;
-            }, (error) => {
-                console.error("Erro ao carregar histórico: ", error);
-                historyContainer.innerHTML = '<p class="text-slate-500 text-center text-red-500">Erro ao carregar histórico.</p>';
-            });
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Add event listeners to static elements
             nfTypeSelect.addEventListener('change', (e) => renderChecklistForType(e.target.value));
             resetButton.addEventListener('click', resetChecklist);
             concluidoButton.addEventListener('click', completeTask);
             clearHistoryButton.addEventListener('click', clearHistory);
-            historyContainer.addEventListener('click', handleCopyNfFromHistory); // Listener para o histórico
+            historyContainer.addEventListener('click', handleCopyNfFromHistory);
             
-            // Initial render
             renderChecklistForType(nfTypeSelect.value);
-            updateProgressAndButtonState();
-            
-            // --- FIREBASE INIT ---
-            try {
-                const firebaseConfig = JSON.parse(globalThis.__firebase_config);
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                    } else {
-                        // Try custom token auth
-                        try {
-                            if (typeof globalThis.__initial_auth_token !== 'undefined') {
-                                await signInWithCustomToken(auth, globalThis.__initial_auth_token);
-                                userId = auth.currentUser.uid;
-                            } else {
-                                throw new Error('No initial auth token');
-                            }
-                        } catch (e) {
-                            // Fallback to anonymous
-                            console.warn("Could not sign in with token, falling back to anonymous.", e);
-                            await signInAnonymously(auth);
-                            userId = auth.currentUser.uid;
-                        }
-                    }
-                    console.log("Auth state ready. UserID:", userId);
-                    // Start listening to history changes once auth is ready
-                    listenForHistoryChanges();
-                });
-
-            } catch (e) {
-                console.error("Erro ao inicializar Firebase:", e);
-                historyContainer.innerHTML = '<p class="text-slate-500 text-center text-red-500">Erro fatal ao carregar o app.</p>';
-                checklistContainer.innerHTML = '<p class="text-slate-500 text-center text-red-500">Erro fatal ao carregar o app.</p>';
-            }
+            renderHistory(); // Load from local storage on start
         });
     </script>
 </body>
